@@ -10,13 +10,15 @@ class UserInput(ABC):
     def decide_move(self) -> bool:
         pass
 
+
+
 class ConsoleUserInput(UserInput):
     def __init__(self) -> None:
         pass
         #self.player : UserPlayer = player
 
     def select_card(self, cards):
-        print("Select Card to play [0," + str(len(cards)) + "]")
+        print("Select Card to play [0," + str(len(cards)-1) + "]")
         return cards[int(input())]
 
     def decide_move(self) -> bool:

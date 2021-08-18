@@ -15,9 +15,11 @@ class Game:
         self.display : Display = ConsoleDisplay(self)
         self.user_input : UserInput = ConsoleUserInput()
 
-        self.players.append(UserPlayer(self.user_input, self.card_stack))
-        self.players.append(ComputerPlayer(self.card_stack))
-        self.players.append(ComputerPlayer(self.card_stack))
+        self.players.append(UserPlayer(self.user_input, self.card_stack, self.display, "USER"))
+        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM1"))
+        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM2"))
+        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM3"))
+        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM4"))
 
         for i in range(5):
             for player in self.players:
@@ -25,11 +27,19 @@ class Game:
 
         
     def run(self):
-        self.display.print_game()
-        while(True):
+        playing = True
+        while(playing):
+            self.display.print_game()
             for player in self.players:                
                 self.current_card = player.move(self.current_card)
-            self.display.print_game()
+                if(len(player.cards)==1):
+                    self.display.message("--UNO--")
+                elif (len(player.cards)==0):
+                    playing = False
+                    self.display.message(str(player) + " has won the game!")
+                    break
+                    
+            
 
     
 
