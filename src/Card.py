@@ -11,3 +11,6 @@ class Color(Enum):
 class Card:
     color: Color
     value: int
+
+    def __str__(self) -> str:
+        return self.color.name + " " + str(self.value)
