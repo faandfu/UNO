@@ -1,5 +1,5 @@
 from typing import List
-from Card import Card
+from Card import Ability, Card
 from CardStack import CardStack
 from Display import ConsoleDisplay, Display
 
@@ -15,34 +15,40 @@ class Game:
         self.display : Display = ConsoleDisplay(self)
         self.user_input : UserInput = ConsoleUserInput()
 
-        #self.players.append(UserPlayer(self.user_input, self.card_stack, self.display, "USER"))
+        self.players.append(UserPlayer(self.user_input, self.card_stack, self.display, "USER"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM1"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM2"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM3"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM4"))
 
-        for i in range(5000):
-            for player in self.players:
-                player.draw_card()
+        
+        for player in self.players:
+            player.draw_card(5)
 
         
     def run(self):
         playing = True
+        player_index = 0
+        direction = True
         while(playing):
-            #self.display.print_game()
-            for player in self.players:                
-                self.current_card = player.move(self.current_card)
-                if(len(player.cards)==1):
-                    self.display.message("--UNO--")
-                elif (len(player.cards)==0):
-                    playing = False
-                    self.display.message(str(player) + " has won the game!")
-                    break
-                    
             
-
-    
-
-    
-
-
+            player = self.players[player_index]  
+            if (isinstance(player, UserPlayer)):
+                self.display.print_game()
+            card = player.move(self.current_card)
+            if(card != None):
+                self.current_card = card
+                if (card.ability == Ability.DirectionChange):
+                    direction = not direction
+                if (card.ability == Ability.Skip):
+                    player_index = (player_index + (1 if direction else -1))
+                if (card.ability == Ability.PlusTwo):
+                    self.players[(player_index + (1 if direction else -1)) % len(self.players)].draw_card(2)
+                if (card.ability == Ability.PlusFour):
+                    self.players[(player_index + (1 if direction else -1)) % len(self.players)].draw_card(4)
+            if (len(player.cards)==0):
+                playing = False
+                self.display.message(str(player) + " has won the game!")
+                break
+            player_index = (player_index + (1 if direction else -1)) % len(self.players) 
+                    
