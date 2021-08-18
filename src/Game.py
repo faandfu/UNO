@@ -15,13 +15,13 @@ class Game:
         self.display : Display = ConsoleDisplay(self)
         self.user_input : UserInput = ConsoleUserInput()
 
-        self.players.append(UserPlayer(self.user_input, self.card_stack, self.display, "USER"))
+        #self.players.append(UserPlayer(self.user_input, self.card_stack, self.display, "USER"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM1"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM2"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM3"))
         self.players.append(ComputerPlayer(self.card_stack, self.display, "COM4"))
 
-        for i in range(5):
+        for i in range(5000):
             for player in self.players:
                 player.draw_card()
 
@@ -29,7 +29,7 @@ class Game:
     def run(self):
         playing = True
         while(playing):
-            self.display.print_game()
+            #self.display.print_game()
             for player in self.players:                
                 self.current_card = player.move(self.current_card)
                 if(len(player.cards)==1):

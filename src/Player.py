@@ -31,13 +31,7 @@ class UserPlayer(Player):
     def draw_card(self):
         self.cards.append(self.card_stack.draw())
 
-    def play_card(self, current_card: Card) -> Card:
-        compatible_cards = get_compatible_cards(self.cards, current_card)
-        if(len(compatible_cards) == 0):
-            self.display.message("No valid options, you have to draw a card.")
-            self.draw_card()
-            card = current_card
-            return card
+    def play_card(self, current_card: Card, compatible_cards:List[Card]) -> Card:
         card = self.user_input.select_card(self.cards)
         if(not (card in compatible_cards)):
             self.user_input.message("Card not valid. Try again.")
@@ -47,8 +41,13 @@ class UserPlayer(Player):
         return card
 
     def move(self, current_card:Card) -> Card:
+        compatible_cards = get_compatible_cards(self.cards, current_card)
+        if(len(compatible_cards) == 0):
+            self.display.message("No valid options, you have to draw a card.")
+            self.draw_card()
+            return current_card
         if(self.user_input.decide_move()):
-            return self.play_card(current_card)
+            return self.play_card(current_card, compatible_cards)
         else:
             self.draw_card()
             return current_card
@@ -67,20 +66,21 @@ class ComputerPlayer(Player):
     def draw_card(self):
         self.cards.append(self.card_stack.draw())
 
-    def play_card(self, current_card: Card):
+    def play_card(self, compatible_cards:List[Card]):
+        card = compatible_cards[randint(0, len(compatible_cards)-1)]
+        self.cards.remove(card)
+        self.display.message(self.name + " played " + str(card))
+        return card
+
+    def move(self, current_card:Card):
         compatible_cards = get_compatible_cards(self.cards, current_card)
         if(len(compatible_cards) == 0):
             self.display.message(self.name + " had to draw a card.")
             self.draw_card()
-            card = current_card 
+            return current_card
         else:
-            card = compatible_cards[randint(0, len(compatible_cards)-1)]
-            self.cards.remove(card)
-            self.display.message(self.name + " played " + str(card))
-        return card
-
-    def move(self, current_card:Card):
-        return self.play_card(current_card)
+            return self.play_card(compatible_cards)
+        
     
     def __str__(self) -> str:
         return self.name
