@@ -1,4 +1,4 @@
-from src.Player import UserPlayer
+#from src.Player import UserPlayer
 
 def test_user_player_draw_card():    
     assert 1 == 1
