@@ -8,20 +8,19 @@ from src.UserInput import ConsoleUserInput, UserInput
 
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, user_playing:bool = True, num_players:int = 4) -> None:
         self.players: List[Player] = []
         self.card_stack: CardStack = CardStack()
         self.current_card: Card = self.card_stack.draw()
         self.display: Display = ConsoleDisplay(self)
         self.user_input: UserInput = ConsoleUserInput()
-
-        self.players.append(
-            UserPlayer(self.user_input, self.card_stack, self.display, "USER")
-        )
-        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM1"))
-        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM2"))
-        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM3"))
-        self.players.append(ComputerPlayer(self.card_stack, self.display, "COM4"))
+        if(user_playing):
+            self.players.append(
+                UserPlayer(self.user_input, self.card_stack, self.display, "USER")
+            )
+        for i in range(num_players):
+            self.players.append(ComputerPlayer(self.card_stack, self.display, "COM"+str(i)))
+        
 
         for player in self.players:
             player.draw_card(5)
