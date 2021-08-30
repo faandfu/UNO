@@ -1,4 +1,4 @@
-from Card import Ability, Card, Color
+from src.Card import Ability, Card, Color
 from typing import List
 
 
