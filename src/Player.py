@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from random import randint
 from typing import List
-from Card import Ability, Card
-from CardStack import CardStack
-from Display import Display
-from UserInput import UserInput
-from Helper import get_best_color, get_compatible_cards
+from src.Card import Ability, Card
+from src.CardStack import CardStack
+from src.Display import Display
+from src.UserInput import UserInput
+from src.Helper import get_best_color, get_compatible_cards
 
 class Player(ABC):
     @abstractmethod

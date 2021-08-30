@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Card import Card
+from src.Card import Card
 
 
 class UserInput(ABC):

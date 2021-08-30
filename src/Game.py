@@ -1,10 +1,10 @@
 from typing import List
-from Card import Ability, Card
-from CardStack import CardStack
-from Display import ConsoleDisplay, Display
+from src.Card import Ability, Card
+from src.CardStack import CardStack
+from src.Display import ConsoleDisplay, Display
 
-from Player import ComputerPlayer, Player, UserPlayer
-from UserInput import ConsoleUserInput, UserInput
+from src.Player import ComputerPlayer, Player, UserPlayer
+from src.UserInput import ConsoleUserInput, UserInput
 
 
 class Game:    
