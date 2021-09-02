@@ -18,8 +18,19 @@ class ConsoleUserInput(UserInput):
         # self.player : UserPlayer = player
 
     def select_card(self, cards):
-        print("Select Card to play [0," + str(len(cards) - 1) + "]")
-        return cards[int(input())]
+        selected = False
+        selected_num = 0
+        while(not selected):
+            print("Select Card to play [0," + str(len(cards) - 1) + "]")
+            try:
+                selected_num = int(input())
+                if selected_num in range(0, len(cards)):
+                    selected = True
+                else:
+                    print("Input not valid. Try again.")
+            except:
+                print("Input not valid. Try again.")
+        return cards[selected_num]
 
     def decide_move(self) -> bool:
         print("Play Card or draw Card(p/d)?")
